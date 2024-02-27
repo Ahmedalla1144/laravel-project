@@ -21,3 +21,5 @@ php artisan migrate:status
 
 <!-- Fake data -->
  php artisan db:seed --class=UserSeeder
+
+ good
