@@ -21,17 +21,20 @@ class AuthController extends Controller
 
             $user = User::find($auth_user->id);
 
-            $abilities = explode('|', $user->roles);
+            $abilities = $user->roles;
 
-            $oldToken = PersonalAccessToken::where('tokenable_id', $user->id)->first()?->token;
+            // If the user have an old token delete it.
+            PersonalAccessToken::where('tokenable_id', $user->id)?->delete();
 
             if (!$user->email_verified_at) {
-                $x = $user->update([
+                $user->update([
                     'email_verified_at' => Carbon::now()
                 ]);
                 $user->save();
             }
-            $user['token'] = $oldToken ?? $user->createToken('api_token', $abilities)->plainTextToken;
+
+            $user['token'] = $user->createToken('api_token', $abilities)->plainTextToken;
+
             $user->tokens()->update(['expires_at' => Carbon::now()->addMinutes(100)]);
 
             return response()->json([
@@ -40,7 +43,7 @@ class AuthController extends Controller
             ]);
         }
         return response()->json([
-            'message' => 'Unauthorized'
+            'message' => 'Unauthenticated Request'
         ], 401);
     }
 }

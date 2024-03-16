@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Models\Post;
 use App\Models\User;
 use App\Traits\Policy;
-use Illuminate\Auth\Access\Response;
 
 class PostPolicy
 {
@@ -14,9 +13,9 @@ class PostPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function index (User $user): bool
+    public function index(User $user): bool
     {
-        $ability = ['stuff'];
+        $ability = ['all', 'show'];
 
         return $this->checkUserAbilitis($ability);
     }
@@ -26,8 +25,9 @@ class PostPolicy
      */
     public function view(User $user, Post $post): bool
     {
+        $ability = ['show'];
 
-        return false;
+        return $this->checkUserAbilitis($ability);
     }
 
     /**
@@ -36,7 +36,9 @@ class PostPolicy
     public function create(User $user): bool
     {
 
-        return false;
+        $ability = ['create'];
+
+        return $this->checkUserAbilitis($ability);
     }
 
     /**
@@ -45,7 +47,9 @@ class PostPolicy
     public function update(User $user, Post $post): bool
     {
 
-        return false;
+        $ability = ['all', 'show', 'update'];
+
+        return $this->checkUserAbilitis($ability);
     }
 
     /**
@@ -53,8 +57,9 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return false;
+        $ability = ['all', 'show', 'delete'];
 
+        return $this->checkUserAbilitis($ability);
     }
 
     /**
@@ -63,7 +68,6 @@ class PostPolicy
     public function restore(User $user, Post $post): bool
     {
         return false;
-
     }
 
     /**
@@ -72,6 +76,5 @@ class PostPolicy
     public function forceDelete(User $user, Post $post): bool
     {
         return false;
-
     }
 }

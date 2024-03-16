@@ -28,5 +28,6 @@ Route::prefix('auth')->controller(AuthController::class)
 Route::middleware(['auth:sanctum'])->group(
     function () {
         require_once __DIR__ . '/apis/posts.php';
+        require_once __DIR__ . '/apis/users.php';
     }
 );
