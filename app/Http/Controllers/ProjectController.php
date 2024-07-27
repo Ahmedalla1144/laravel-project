@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 class ProjectController extends Controller
 {
@@ -22,7 +25,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Project/AddProject');
     }
 
     /**
@@ -30,7 +33,24 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $project = new Project();
+
+        $project->title = $request->title;
+        $project->description = $request->description;
+        $project->visit = $request->visit;
+        $project->source = $request->source;
+        $project->tags = $request->tags;
+
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->extension();
+            $image->move(public_path('images'), $imageName);
+            $project->image = $imageName;
+        }
+
+        $project->save();
+        return redirect()->route('projects.create')->with('success', 'Project saved successfully');
     }
 
     /**
@@ -46,7 +66,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return Inertia::render('Project/EditProject', ['project' => $project]);
     }
 
     /**
@@ -62,6 +82,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return redirect()->back()->with('success', 'Project deleted successfully');
     }
 }

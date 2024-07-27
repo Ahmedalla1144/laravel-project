@@ -5,7 +5,23 @@ export interface User {
     email_verified_at: string;
 }
 
-export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+export interface Project {
+    description: string;
+    id: number;
+    image: string;
+    source: string;
+    tags: [];
+    title: string;
+    visit: string;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: Date;
+}
+
+export type PageProps<
+    T extends Record<string, unknown> = Record<string, unknown>
+    > = T & {
+    projects: Project[];
     auth: {
         user: User;
     };

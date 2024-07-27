@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Models\Project;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -13,10 +14,10 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', ['projects' => Project::all()]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
@@ -26,4 +27,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::resource('/projects', ProjectController::class)->middleware(['auth', 'verified']);
+
 
