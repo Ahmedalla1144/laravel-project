@@ -14,7 +14,14 @@ class Project extends Model
     function tags(): Attribute
     {
         return Attribute::make(
-            get: fn ($v) => explode('|',$v)
+            get: fn ($v) => explode('|', $v)
+        );
+    }
+
+    function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($v) => asset('storage/images/' . $v)
         );
     }
 }

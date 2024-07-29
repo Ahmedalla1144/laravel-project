@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
@@ -45,7 +44,8 @@ class ProjectController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->extension();
-            $image->move(public_path('images'), $imageName);
+            // $imagePath = $image->storeAs('public/images', $imageName);
+            Storage::disk('local')->put($imageName, file_get_contents($image));
             $project->image = $imageName;
         }
 

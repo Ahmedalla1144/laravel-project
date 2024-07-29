@@ -11,25 +11,26 @@ export default function AddProject({ auth }: PageProps) {
         description: "",
         source: "",
         visit: "",
-        image: null,
+        image: null as File | null,
         tags: "",
     });
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setData("image", e.target.files[0]);
         }
-    }
+    };
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route("projects.store")), {
-            onSuccess: () => {
-                showToast('Project added successfully', 'success');
-                reset();
-            },
-            onError: () => {
-                showToast("Failed to add project", 'error');
-            },
-        }
+        post(route("projects.store")),
+            {
+                onSuccess: () => {
+                    showToast("Project added successfully", "success");
+                    reset();
+                },
+                onError: () => {
+                    showToast("Failed to add project", "error");
+                },
+            };
     };
     return (
         <AuthenticatedLayout
@@ -40,7 +41,6 @@ export default function AddProject({ auth }: PageProps) {
                 </h2>
             }
         >
-
             <div className="py-12 flex justify-center items-center">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     {/* Add project form */}
@@ -143,7 +143,6 @@ export default function AddProject({ auth }: PageProps) {
                         </button>
                     </form>
                 </div>
-
             </div>
         </AuthenticatedLayout>
     );
