@@ -57,6 +57,8 @@ export default function AddProject({ auth }: PageProps) {
                                 type="text"
                                 placeholder="Title"
                                 name="title"
+                                autoFocus
+                                autoComplete="name"
                                 onChange={(e) =>
                                     setData("title", e.target.value)
                                 }

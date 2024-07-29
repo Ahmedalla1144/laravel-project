@@ -62,7 +62,7 @@ export default function Dashboard({ auth, projects }: PageProps) {
                                 </select>
                                 </div>
                                 <div className="flex flex-row justify-start items-center gap-5">
-                                <button className="hover:text-gray-950 dark:hover:text-gray-400" onClick={() => handleDelete(parseInt(projectId))}>Delete</button>
+                                <button className="hover:text-gray-950 dark:hover:text-gray-400" disabled={projectId === ''} onClick={() => handleDelete(parseInt(projectId))}>Delete</button>
                                 <select onChange={(e) => setProjectId(e.target.value) } name="project" id="project" className="bg-white dark:bg-gray-800 border-none outline-none">
                                 <option value="">Select a project</option>
                                     {titleprojects}
